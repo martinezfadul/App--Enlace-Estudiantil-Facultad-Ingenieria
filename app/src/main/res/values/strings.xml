@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">EEFI</string>
+    <string name="tvNoCuenta">No. Cuenta</string>
+    <string name="tvContraseña">Contraseña</string>
+    <string name="edtNoCuenta">123456789</string>
+    <string name="edtContraseña">********</string>
+    <string name="btnAcceder">Acceder</string>
+    <string name="btnGuardar">Guardar</string>
+    <string name="btnRegistrarse">Registrarse</string>
+</resources>
