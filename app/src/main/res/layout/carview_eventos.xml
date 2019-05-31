@@ -23,6 +23,7 @@
             android:id="@+id/imgvEvetno"
             android:layout_width="wrap_content"
             android:layout_height="160dp"
+            android:onClick="onClickPopup"
             tools:srcCompat="@tools:sample/backgrounds/scenic[15]" />
 
         <TextView

@@ -6,19 +6,22 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.CalendarView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.PopupMenu;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class ActivityCentral extends AppCompatActivity {
+public class ActivityCentral extends AppCompatActivity implements PopupMenu.OnMenuItemClickListener {
 
     RecyclerView rcEventosPrincipalesJ;
     ArrayList<Evento> listaEventos;
@@ -60,13 +63,13 @@ public class ActivityCentral extends AppCompatActivity {
 
     private void iniciarListaEventos()
     {
-        listaEventos.add(new Evento("Evento de prueba 1","Evento 1",R.drawable.primerposter,"2019/5/2"));
-        listaEventos.add(new Evento("Evento de prueba 2","Evento 2",R.drawable.segundoposter,"2019/5/4"));
-        listaEventos.add(new Evento("Evento de prueba 3","Evento 3",R.drawable.primerposter,"2019/5/4"));
-        listaEventos.add(new Evento("Evento de prueba 4","Evento 4",R.drawable.segundoposter,"2019/5/4"));
-        listaEventos.add(new Evento("Evento de prueba 5","Evento 5",R.drawable.segundoposter,"2019/5/22"));
-        listaEventos.add(new Evento("Evento de prueba 6","Evento 6",R.drawable.primerposter,"2019/12/25"));
-        listaEventos.add(new Evento("Evento de prueba 7","Evento 7",R.drawable.segundoposter,"2019/1/1"));
+        listaEventos.add(new Evento("Evento de prueba 1","Evento 1",R.drawable.primerposter,"2019/5/2","16:00"));
+        listaEventos.add(new Evento("Evento de prueba 2","Evento 2",R.drawable.segundoposter,"2019/5/4","11:30"));
+        listaEventos.add(new Evento("Evento de prueba 3","Evento 3",R.drawable.primerposter,"2019/5/4","9:00"));
+        listaEventos.add(new Evento("Evento de prueba 4","Evento 4",R.drawable.segundoposter,"2019/5/4","10:00"));
+        listaEventos.add(new Evento("Evento de prueba 5","Evento 5",R.drawable.segundoposter,"2019/5/22","11:00"));
+        listaEventos.add(new Evento("Evento de prueba 6","Evento 6",R.drawable.primerposter,"2019/12/25","13:00"));
+        listaEventos.add(new Evento("Evento de prueba 7","Evento 7",R.drawable.segundoposter,"2019/1/1","15:00"));
     }
 
     private void inicarAdaptador(int op,int [] indices)
@@ -161,7 +164,32 @@ public class ActivityCentral extends AppCompatActivity {
 
     }
 
-    public static void quicksort(int A[], int izq, int der) {
+    public void onClickPopup(View v)
+    {
+        PopupMenu popup = new PopupMenu(this,v);
+        popup.setOnMenuItemClickListener(this);
+        popup.inflate(R.menu.menu_popup);
+        popup.show();
+    }
+
+    @Override
+    public boolean onMenuItemClick(MenuItem item) {
+        switch(item.getItemId())
+        {
+            case R.id.btnIrPagina:
+                Toast.makeText(this,"ir a la pagina del evento",Toast.LENGTH_LONG).show();
+                return true;
+            case R.id.btnRecordatorio:
+                Toast.makeText(this,"inserte recordatorio aqui",Toast.LENGTH_LONG).show();
+                return true;
+                default:
+                    return false;
+        }
+
+    }
+
+    public static void quicksort(int A[], int izq, int der)
+    {
 
         int pivote= A[izq]; // tomamos primer elemento como pivote
         int i=izq; // i realiza la búsqueda de izquierda a derecha

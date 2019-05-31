@@ -6,6 +6,15 @@ public class Evento {
     private String nombre;
     private int idPoster;
     private String fecha;
+    private String hora;
+
+    public String getHora() {
+        return hora;
+    }
+
+    public void setHora(String hora) {
+        this.hora = hora;
+    }
 
     public String getFecha() {
         return fecha;
@@ -38,10 +47,11 @@ public class Evento {
         this.idPoster = idPoster;
     }
 
-    public Evento(String descripcion, String nombre, int idPoster, String fecha) {
+    public Evento(String descripcion, String nombre, int idPoster, String fecha,String hora) {
         this.descripcion = descripcion;
         this.nombre = nombre;
         this.idPoster = idPoster;
         this.fecha = fecha;
+        this.hora=hora;
     }
 }
