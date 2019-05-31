@@ -26,10 +26,11 @@ public class ListaParaMostrar extends AppCompatActivity {
     private void recibiDatos()
     {
         Bundle extras=getIntent().getExtras();
-        ArrayList<String> recibido = extras.getStringArrayList("arreglo");
+        ArrayList<String> recibido = extras.getStringArrayList ("arreglo");
         Toast.makeText(this,recibido.get(0),Toast.LENGTH_LONG).show();
+
         ArrayAdapter adatadorLista = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1,recibido);
-        listaVista.setAdapter(adatadorLista);
+        listaVista.setAdapter (adatadorLista);
 
     }
 }
