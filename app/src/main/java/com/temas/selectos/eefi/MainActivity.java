@@ -12,6 +12,8 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.temas.selectos.eefi.Central.ActivityCentral;
+
 public class MainActivity extends AppCompatActivity {
 
     EditText edtNoCuenta;
@@ -93,7 +95,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void ingreso()
     {
-        Intent intentIngreso = new Intent(this,ActivityCentral.class);
+        Intent intentIngreso = new Intent(this, ActivityCentral.class);
         startActivity(intentIngreso);
     }
 }

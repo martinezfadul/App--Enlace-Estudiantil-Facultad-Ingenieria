@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ActivityCentral">
+    tools:context=".Central.ActivityCentral">
 
     <LinearLayout
         android:id="@+id/LinearLayout"
@@ -25,8 +25,10 @@
             android:layout_height="174dp" />
 
         <ScrollView
+            android:id="@+id/scvCedes"
             android:layout_width="match_parent"
-            android:layout_height="116dp">
+            android:layout_height="116dp"
+            android:onClick="onClickIniciar">
 
             <LinearLayout
                 android:id="@+id/llCedes"

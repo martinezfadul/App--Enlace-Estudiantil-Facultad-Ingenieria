@@ -1,4 +1,4 @@
-package com.temas.selectos.eefi;
+package com.temas.selectos.eefi.Central;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -6,6 +6,8 @@ import android.widget.Adapter;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
+
+import com.temas.selectos.eefi.R;
 
 import java.util.ArrayList;
 

@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "678587033115",
+    "firebase_url": "https://eefi-b575a.firebaseio.com",
+    "project_id": "eefi-b575a",
+    "storage_bucket": "eefi-b575a.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:678587033115:android:994308df2bce34de",
+        "android_client_info": {
+          "package_name": "com.temas.selectos.eefi"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "678587033115-3m9g8e1b6pnmdrlre25b6m7o3ffbacei.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.temas.selectos.eefi",
+            "certificate_hash": "422d6ae3427b1e553edefbe3b6776aa318c46c41"
+          }
+        },
+        {
+          "client_id": "678587033115-dn863domkadqa4irf2f4voe2nbg2slsu.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB5sYmQcqxpVJuBvgtuf1SQq2xFeDOT4_c"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "678587033115-dn863domkadqa4irf2f4voe2nbg2slsu.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

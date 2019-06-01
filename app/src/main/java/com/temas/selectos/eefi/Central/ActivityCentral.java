@@ -1,35 +1,50 @@
-package com.temas.selectos.eefi;
+package com.temas.selectos.eefi.Central;
 
-import android.app.ListActivity;
 import android.content.Intent;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.CalendarView;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.PopupMenu;
-import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.firebase.FirebaseApp;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+import com.temas.selectos.eefi.Central.ListaParaMostrar;
+import com.temas.selectos.eefi.Central.TodoslosEventos;
+import com.temas.selectos.eefi.Central.adaptadorEvento;
+import com.temas.selectos.eefi.R;
+import com.temas.selectos.eefi.clases.Evento;
+
 import java.util.ArrayList;
-import java.util.List;
+import java.util.Timer;
 
 public class ActivityCentral extends AppCompatActivity implements PopupMenu.OnMenuItemClickListener {
 
     RecyclerView rcEventosPrincipalesJ;
-    ArrayList<Evento> listaEventos;
-    ArrayList<Cedes> listaLugares;
+    private ArrayList<Evento> listaEventos= new ArrayList<Evento>();
+    ArrayList<Evento.Cedes> listaLugares;
     LinearLayout linearLayoutCedes;
     CalendarView calendarioEventosJ;
     ArrayList<String> arregloMostrar;
     static int [] dias;
+    boolean bandera=true;
+    Timer timer;
+
+    FirebaseDatabase basedatos;
+    DatabaseReference databaseReference;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,15 +59,20 @@ public class ActivityCentral extends AppCompatActivity implements PopupMenu.OnMe
         Eventos.setOrientation(LinearLayout.HORIZONTAL);
         rcEventosPrincipalesJ.setLayoutManager(Eventos);
 
-        listaEventos = new ArrayList(); iniciarListaEventos();
+        iniciarFireBase();
+
+        iniciarListaEventosFB();
+
         listaLugares = new ArrayList();iniciarLugares();
         arregloMostrar = new ArrayList();
 
-        ordenarEventos();
+
+
 
         calendarioEventosJ.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
             @Override
-            public void onSelectedDayChange(CalendarView view, int year, int month, int dayOfMonth) {
+            public void onSelectedDayChange(CalendarView view, int year, int month, int dayOfMonth)
+            {
                 String date = year + "/" + (month+1) +"/" + dayOfMonth;
                 mostrarEventosDia(date);
             }
@@ -61,44 +81,77 @@ public class ActivityCentral extends AppCompatActivity implements PopupMenu.OnMe
     }
 
 
+    public void iniciarFireBase()
+    {
+        FirebaseApp.initializeApp(this);
+        basedatos= FirebaseDatabase.getInstance();
+        databaseReference=basedatos.getReference();
+    }
+
+    public void iniciarListaEventosFB()
+    {
+        final ArrayList<Evento> ass = new ArrayList();
+        databaseReference.child("Eventos").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                listaEventos.clear();
+                for(DataSnapshot dsh: dataSnapshot.getChildren())
+                {
+                    Evento aux = dsh.getValue(Evento.class);
+                    Toast.makeText(ActivityCentral.this,aux.getNombre(),Toast.LENGTH_LONG).show();
+
+                    listaEventos.add(aux);
+                }
+
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+    }
+
     private void iniciarListaEventos()
     {
-        listaEventos.add(new Evento("Evento de prueba 1","Evento 1",R.drawable.primerposter,"2019/5/2","16:00"));
+        /*listaEventos.add(new Evento("Evento de prueba 1","Evento 1",R.drawable.primerposter,"2019/5/2","16:00"));
         listaEventos.add(new Evento("Evento de prueba 2","Evento 2",R.drawable.segundoposter,"2019/5/4","11:30"));
         listaEventos.add(new Evento("Evento de prueba 3","Evento 3",R.drawable.primerposter,"2019/5/4","9:00"));
         listaEventos.add(new Evento("Evento de prueba 4","Evento 4",R.drawable.segundoposter,"2019/5/4","10:00"));
         listaEventos.add(new Evento("Evento de prueba 5","Evento 5",R.drawable.segundoposter,"2019/5/22","11:00"));
         listaEventos.add(new Evento("Evento de prueba 6","Evento 6",R.drawable.primerposter,"2019/12/25","13:00"));
-        listaEventos.add(new Evento("Evento de prueba 7","Evento 7",R.drawable.segundoposter,"2019/1/1","15:00"));
+        listaEventos.add(new Evento("Evento de prueba 7","Evento 7",R.drawable.segundoposter,"2019/1/1","15:00"));*/
     }
 
     private void inicarAdaptador(int op,int [] indices)
     {
-        if(op==0) {
-            adaptadorEvento adaptador = new adaptadorEvento(listaEventos, this);
-            rcEventosPrincipalesJ.setAdapter(adaptador);
+        ArrayList<Evento> auxMuestra = new ArrayList();
+        if(op==0)
+        {
+            for (int i=0;i<listaEventos.size();i++)
+            {
+                auxMuestra.add(listaEventos.get(indices[i]));
+            }
         }
         else if(op==1)
         {
-            ArrayList<Evento> auxMuestra = new ArrayList();
             for (int i=0;i<5;i++)
             {
                 auxMuestra.add(listaEventos.get(indices[i]));
             }
-            adaptadorEvento adaptador = new adaptadorEvento(auxMuestra, this);
-            rcEventosPrincipalesJ.setAdapter(adaptador);
         }
+        adaptadorEvento adaptador = new adaptadorEvento(auxMuestra, this);
+        rcEventosPrincipalesJ.setAdapter(adaptador);
     }
 
     private void iniciarLugares()
     {
-        listaLugares.add(new Cedes("Auditorio Javier Barros",100,100));
-        listaLugares.add(new Cedes("Auditorio Marshal",200,100));
-        listaLugares.add(new Cedes("Auditorio Del anexo",200,100));
-        listaLugares.add(new Cedes("explanada del I",200,100));
-        listaLugares.add(new Cedes("Aula magna",200,100));
+        listaLugares.add(new Evento.Cedes("Auditorio Javier Barros",100,100));
+        listaLugares.add(new Evento.Cedes("Auditorio Marshal",200,100));
+        listaLugares.add(new Evento.Cedes("Auditorio Del anexo",200,100));
+        listaLugares.add(new Evento.Cedes("explanada del I",200,100));
+        listaLugares.add(new Evento.Cedes("Aula magna",200,100));
 
-        for(Cedes c:listaLugares)
+        for(Evento.Cedes c:listaLugares)
         {
             TextView txtvTemp = new TextView(this);
             txtvTemp.setText(c.getNombre());
@@ -111,6 +164,11 @@ public class ActivityCentral extends AppCompatActivity implements PopupMenu.OnMe
     public void mostrarEventosDia(String date)
     {
         arregloMostrar.clear();
+
+        if (listaEventos.isEmpty())
+        {
+            Toast.makeText(this,"AAAAAAAAAAAAAAAAAAA",Toast.LENGTH_LONG).show();
+        }
 
         Evento aux = listaEventos.get(0);
         if(aux.getFecha().equals(date))
@@ -142,25 +200,31 @@ public class ActivityCentral extends AppCompatActivity implements PopupMenu.OnMe
 
         dias = new int[listaEventos.size()];
 
-        if(listaEventos.size()>5)
+        if(!listaEventos.isEmpty())
         {
-            int [] indices = new int[listaEventos.size()];
+            int[] indices = new int[listaEventos.size()];
 
-            for(int i=0; i<listaEventos.size();i++)
+            for (int i = 0; i < listaEventos.size(); i++)
             {
                 String[] parts = listaEventos.get(i).getFecha().split("/");
-                dias[i] = (2019 - Integer.parseInt(parts[0]) * 365 + Integer.parseInt(parts[1])*30 + Integer.parseInt(parts[2]));
+                dias[i] = (2019 - Integer.parseInt(parts[0]) * 365 + Integer.parseInt(parts[1]) * 30 + Integer.parseInt(parts[2]));
                 indices[i] = i;
             }
-
             quicksort (indices,0 ,indices.length-1);
-            inicarAdaptador(1,indices);
+
+                if (listaEventos.size()>5)
+                {
+                    inicarAdaptador(1,indices);
+                }
+                else {
+                    inicarAdaptador(0, indices);
+                }
         }
         else
         {
-            int [] as=new int[1];
-            inicarAdaptador(0,as);
+            Toast.makeText(this,"No hay eventos regisrados",Toast.LENGTH_LONG).show();
         }
+
 
     }
 
@@ -188,6 +252,37 @@ public class ActivityCentral extends AppCompatActivity implements PopupMenu.OnMe
 
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_toolbar,menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId())
+        {
+            case R.id.itmMostrarTodo:
+                mostrartodo();
+                return true;
+
+            case R.id.itmCabiarUsuario:
+                super.onBackPressed();
+                return true;
+
+            case R.id.itmCerrar:
+                return  true;
+
+            case R.id.itmIniciar:
+                ordenarEventos();
+                return true;
+
+            default:
+                return false;
+        }
+    }
+
     public static void quicksort(int A[], int izq, int der)
     {
 
@@ -211,5 +306,38 @@ public class ActivityCentral extends AppCompatActivity implements PopupMenu.OnMe
             quicksort(A,izq,j-1); // ordenamos subarray izquierdo
         if(j+1 <der)
             quicksort(A,j+1,der); // ordenamos subarray derecho
+    }
+
+    public void mostrartodo()
+    {
+        if(!listaEventos.isEmpty())
+        {
+            RecyclerView eventosPrueba = findViewById(R.id.rcvTodosEventos);
+            int[] indices = new int[listaEventos.size()];
+
+            for (int i = 0; i < listaEventos.size(); i++)
+            {
+                String[] parts = listaEventos.get(i).getFecha().split("/");
+                dias[i] = (2019 - Integer.parseInt(parts[0]) * 365 + Integer.parseInt(parts[1]) * 30 + Integer.parseInt(parts[2]));
+                indices[i] = i;
+            }
+            quicksort (indices,0 ,indices.length-1);
+            inicarAdaptador(1,indices);
+
+            Intent intent = new Intent(this, TodoslosEventos.class);
+            intent.putExtra("indices", indices);
+            startActivity(intent);
+        }
+        else
+        {
+            Toast.makeText(this,"No hay eventos regisrados",Toast.LENGTH_LONG).show();
+        }
+
+    }
+
+
+    @Override
+    public void onBackPressed() {
+
     }
 }

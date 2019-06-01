@@ -1,4 +1,4 @@
-package com.temas.selectos.eefi;
+package com.temas.selectos.eefi.Central;
 
 import android.app.Activity;
 import android.support.annotation.NonNull;
@@ -8,6 +8,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.temas.selectos.eefi.R;
+import com.temas.selectos.eefi.clases.Evento;
 
 import java.util.ArrayList;
 
