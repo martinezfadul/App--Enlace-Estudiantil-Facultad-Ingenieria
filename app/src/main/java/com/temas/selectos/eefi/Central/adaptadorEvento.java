@@ -28,7 +28,7 @@ public class adaptadorEvento extends RecyclerView.Adapter <adaptadorEvento.event
     ArrayList<Evento> Eventos;
     Activity activity;
 
-    public adaptadorEvento(ArrayList<Evento> eventos, Activity activit) {
+    public adaptadorEvento(ArrayList<Evento> eventos, Activity activit) {   //Recibe los parametros del activity previo
         this.Eventos = eventos;
         this.activity = activit;
     }
@@ -44,7 +44,7 @@ public class adaptadorEvento extends RecyclerView.Adapter <adaptadorEvento.event
     public void onBindViewHolder(@NonNull final eventoViewHolder eventoViewHolder, int pos) {
         final Evento eventoAux= Eventos.get(pos);
 
-        eventoViewHolder.poster.setImageResource(eventoAux.getIdPoster());
+        eventoViewHolder.poster.setImageResource(eventoAux.getIdPoster());   //inicializa los elemnetos
         eventoViewHolder.titulo.setText(eventoAux.getNombre());
         eventoViewHolder.descripcion.setText(eventoAux.getDescripcion());
 
@@ -58,23 +58,17 @@ public class adaptadorEvento extends RecyclerView.Adapter <adaptadorEvento.event
 
                 pop.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
                     @Override
-                    public boolean onMenuItemClick(MenuItem item) {
+                    public boolean onMenuItemClick(MenuItem item) {    //opciones del menu popup
                         switch(item.getItemId())
                         {
                             case R.id.btnIrPagina:
                                 Toast.makeText(activity.getApplicationContext(),"ir a pagina de " + eventoAux.getUrl(),Toast.LENGTH_LONG).show();
 
-                                Intent intentNavegacion = new Intent(v.getContext(), NavegcionActivity.class);
+                                Intent intentNavegacion = new Intent(v.getContext(), NavegcionActivity.class);  //inica la calse navegar
                                 intentNavegacion.putExtra("link",eventoAux.getUrl());
                                 activity.startActivity(intentNavegacion);
-
-
                                 return true;
 
-
-                            case R.id.btnRecordatorio:
-                                Toast.makeText(activity.getApplicationContext(),"inserte recordatorio aqui",Toast.LENGTH_LONG).show();
-                                return true;
                             default:
                                 return false;
                         }

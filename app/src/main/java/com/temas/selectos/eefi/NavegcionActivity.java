@@ -21,12 +21,13 @@ public class NavegcionActivity extends AppCompatActivity {
 
         wbNavegacion.setWebViewClient(new WebViewClient());
         wbNavegacion.getSettings().setJavaScriptEnabled(true);
+        wbNavegacion.getSettings().setBuiltInZoomControls(true);
 
-        wbNavegacion.loadUrl(Enlace);
+        wbNavegacion.loadUrl(Enlace);  //inica la navegacion
 
     }
 
-    public void obtenerExtra()
+    public void obtenerExtra()  //Extrae el enlace que le pasaron en la activity donde se mando llamar
     {
         Bundle extras = getIntent().getExtras();
         if(extras == null) {

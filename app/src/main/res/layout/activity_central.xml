@@ -22,19 +22,12 @@
         <android.support.v7.widget.RecyclerView
             android:id="@+id/rcEventosPricnipales"
             android:layout_width="match_parent"
-            android:layout_height="174dp" />
+            android:layout_height="169dp" />
 
-        <ScrollView
-            android:id="@+id/scvCedes"
+        <ListView
+            android:id="@+id/lstvCedes"
             android:layout_width="match_parent"
-            android:layout_height="116dp">
-
-            <LinearLayout
-                android:id="@+id/llCedes"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical" />
-        </ScrollView>
+            android:layout_height="138dp" />
 
         <CalendarView
             android:id="@+id/cvCalendario"

@@ -19,7 +19,6 @@
         android:theme="@style/AppTheme">
         <activity android:name=".NavegcionActivity"></activity>
         <activity android:name=".Central.TodoslosEventos" />
-        <activity android:name=".Central.ListaParaMostrar" />
         <activity android:name=".Central.ActivityCentral" />
         <activity android:name=".MainActivity">
             <intent-filter>

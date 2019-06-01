@@ -3,7 +3,5 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
     <item android:title="Mas informacion"
         android:id="@+id/btnIrPagina"/>
-    <item android:title="Programar recordario"
-        android:id="@+id/btnRecordatorio"></item>
 
 </menu>

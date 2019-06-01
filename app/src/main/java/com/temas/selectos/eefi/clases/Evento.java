@@ -61,13 +61,11 @@ public class Evento {
     public static class Cedes {
 
         private String nombre;
-        private int capacitdad;
-        private int idMapa;
+        private String Mapa;
 
-        public Cedes(String nombre, int capacitdad, int idMapa) {
+        public Cedes(String nombre, String Mapa) {
             this.nombre = nombre;
-            this.capacitdad = capacitdad;
-            this.idMapa = idMapa;
+            this.Mapa = Mapa;
         }
 
         public String getNombre() {
@@ -78,20 +76,12 @@ public class Evento {
             this.nombre = nombre;
         }
 
-        public int getCapacitdad() {
-            return capacitdad;
+        public String getMapa() {
+            return Mapa;
         }
 
-        public void setCapacitdad(int capacitdad) {
-            this.capacitdad = capacitdad;
-        }
-
-        public int getIdMapa() {
-            return idMapa;
-        }
-
-        public void setIdMapa(int idMapa) {
-            this.idMapa = idMapa;
+        public void setMapa(String Mapa) {
+            this.Mapa = Mapa;
         }
 
 

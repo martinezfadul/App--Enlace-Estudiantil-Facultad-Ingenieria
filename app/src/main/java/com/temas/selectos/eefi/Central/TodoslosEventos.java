@@ -29,6 +29,9 @@ public class TodoslosEventos extends AppCompatActivity {
 
     static int [] dias;
 
+    int [] indi;
+    int op;
+
 
     FirebaseDatabase basedatos;
     DatabaseReference databaseReference;
@@ -46,13 +49,16 @@ public class TodoslosEventos extends AppCompatActivity {
         iniciarFireBase();
         iniciarListaEventosFB();
 
+        obtenerExtra();
 
         final Handler handler = new Handler();
         handler.postDelayed(new Runnable() {
             @Override
             public void run() { adaptador();
             }
-        }, 1000);
+        }, 3000);
+
+
 
     }
 
@@ -84,29 +90,46 @@ public class TodoslosEventos extends AppCompatActivity {
 
     }
 
+    public  void obtenerExtra()
+    {
+        Bundle extras = getIntent().getExtras();
+        if(extras == null) {
+            op=0;
+        } else {
+            op=1;
+             indi = extras.getIntArray("indi");
+        }
+    }
+
     public void adaptador()
     {
-        dias = new int[listaEventos.size()];
-
-        if(!listaEventos.isEmpty())
+        if(listaEventos.isEmpty())
         {
-            int[] indices = new int[listaEventos.size()];
+            Toast.makeText(this,"No hay eventos Disponibles",Toast.LENGTH_LONG).show();
+            finish();
+        }
+        if (op==0) {
+            dias = new int[listaEventos.size()];
 
-            for (int i = 0; i < listaEventos.size(); i++)
+                int[] indices = new int[listaEventos.size()];
+
+                for (int i = 0; i < listaEventos.size(); i++) {
+                    String[] parts = listaEventos.get(i).getFecha().split("/");
+                    dias[i] = (2019 - Integer.parseInt(parts[0]) * 365 + Integer.parseInt(parts[1]) * 30 + Integer.parseInt(parts[2]));
+                    indices[i] = i;
+                }
+                quicksort(indices, 0, indices.length - 1);
+
+                for (int i = 0; i < listaEventos.size(); i++) {
+                    auxMuestra.add(listaEventos.get(indices[i]));
+                }
+        }
+        else if(op==1)
+        {
+            for(int i=0;i<indi.length;i++)
             {
-                String[] parts = listaEventos.get(i).getFecha().split("/");
-                dias[i] = (2019 - Integer.parseInt(parts[0]) * 365 + Integer.parseInt(parts[1]) * 30 + Integer.parseInt(parts[2]));
-                indices[i] = i;
+                auxMuestra.add(listaEventos.get(indi[i]));
             }
-            quicksort (indices,0 ,indices.length-1);
-
-
-
-            for (int i=0;i<listaEventos.size();i++)
-            {
-                auxMuestra.add(listaEventos.get(indices[i]));
-            }
-
         }
         adaptadorEvento adaptador = new adaptadorEvento(auxMuestra, this);
         rcvTodosEventos.setAdapter(adaptador);
