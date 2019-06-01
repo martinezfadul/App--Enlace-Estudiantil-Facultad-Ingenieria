@@ -1,6 +1,7 @@
 package com.temas.selectos.eefi.Central;
 
 import android.content.Intent;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -25,6 +26,7 @@ import com.google.firebase.database.ValueEventListener;
 import com.temas.selectos.eefi.Central.ListaParaMostrar;
 import com.temas.selectos.eefi.Central.TodoslosEventos;
 import com.temas.selectos.eefi.Central.adaptadorEvento;
+import com.temas.selectos.eefi.MainActivity;
 import com.temas.selectos.eefi.R;
 import com.temas.selectos.eefi.clases.Evento;
 
@@ -41,7 +43,6 @@ public class ActivityCentral extends AppCompatActivity implements PopupMenu.OnMe
     ArrayList<String> arregloMostrar;
     static int [] dias;
     boolean bandera=true;
-    Timer timer;
 
     FirebaseDatabase basedatos;
     DatabaseReference databaseReference;
@@ -65,6 +66,14 @@ public class ActivityCentral extends AppCompatActivity implements PopupMenu.OnMe
 
         listaLugares = new ArrayList();iniciarLugares();
         arregloMostrar = new ArrayList();
+
+        final Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                ordenarEventos();
+            }
+        }, 3000);
 
 
 
@@ -98,8 +107,6 @@ public class ActivityCentral extends AppCompatActivity implements PopupMenu.OnMe
                 for(DataSnapshot dsh: dataSnapshot.getChildren())
                 {
                     Evento aux = dsh.getValue(Evento.class);
-                    Toast.makeText(ActivityCentral.this,aux.getNombre(),Toast.LENGTH_LONG).show();
-
                     listaEventos.add(aux);
                 }
 
@@ -197,7 +204,6 @@ public class ActivityCentral extends AppCompatActivity implements PopupMenu.OnMe
 
     public void ordenarEventos()
     {
-
         dias = new int[listaEventos.size()];
 
         if(!listaEventos.isEmpty())
@@ -272,6 +278,8 @@ public class ActivityCentral extends AppCompatActivity implements PopupMenu.OnMe
                 return true;
 
             case R.id.itmCerrar:
+                finish();
+                finishAffinity(); System.exit(0);
                 return  true;
 
             case R.id.itmIniciar:
