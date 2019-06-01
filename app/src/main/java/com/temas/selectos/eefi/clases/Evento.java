@@ -7,6 +7,15 @@ public class Evento {
     private int idPoster;
     private String fecha;
     private String hora;
+    private String url;
+
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
+    }
 
     public String getHora() {
         return hora;

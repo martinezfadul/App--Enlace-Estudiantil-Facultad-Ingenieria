@@ -4,7 +4,7 @@
 
     <item
         android:id="@+id/itmIniciar"
-        android:title="Iniciar" />
+        android:title="Recargar" />
     <item
         android:id="@+id/itmMostrarTodo"
         android:title="Mostrar todos los eventos" />

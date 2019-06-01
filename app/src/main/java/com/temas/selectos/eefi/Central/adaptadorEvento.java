@@ -1,8 +1,13 @@
 package com.temas.selectos.eefi.Central;
 
 import android.app.Activity;
+import android.content.ActivityNotFoundException;
+import android.content.Intent;
+import android.net.Uri;
 import android.support.annotation.NonNull;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -11,6 +16,9 @@ import android.widget.ImageView;
 import android.widget.PopupMenu;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.temas.selectos.eefi.MainActivity;
+import com.temas.selectos.eefi.NavegcionActivity;
 import com.temas.selectos.eefi.R;
 import com.temas.selectos.eefi.clases.Evento;
 import java.util.ArrayList;
@@ -20,9 +28,9 @@ public class adaptadorEvento extends RecyclerView.Adapter <adaptadorEvento.event
     ArrayList<Evento> Eventos;
     Activity activity;
 
-    public adaptadorEvento(ArrayList<Evento> eventos, Activity activity) {
-        Eventos = eventos;
-        this.activity = activity;
+    public adaptadorEvento(ArrayList<Evento> eventos, Activity activit) {
+        this.Eventos = eventos;
+        this.activity = activit;
     }
 
     @NonNull
@@ -33,7 +41,7 @@ public class adaptadorEvento extends RecyclerView.Adapter <adaptadorEvento.event
     }
 
     @Override
-    public void onBindViewHolder(@NonNull eventoViewHolder eventoViewHolder, int pos) {
+    public void onBindViewHolder(@NonNull final eventoViewHolder eventoViewHolder, int pos) {
         final Evento eventoAux= Eventos.get(pos);
 
         eventoViewHolder.poster.setImageResource(eventoAux.getIdPoster());
@@ -42,7 +50,7 @@ public class adaptadorEvento extends RecyclerView.Adapter <adaptadorEvento.event
 
         eventoViewHolder.poster.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onClick(final View v) {
                 PopupMenu pop = new PopupMenu(activity.getApplicationContext(),v);
                 pop.inflate(R.menu.menu_popup);
                 pop.show();
@@ -54,9 +62,16 @@ public class adaptadorEvento extends RecyclerView.Adapter <adaptadorEvento.event
                         switch(item.getItemId())
                         {
                             case R.id.btnIrPagina:
-                                Toast.makeText(activity.getApplicationContext(),"ir a pagina de " + eventoAux.getNombre(),Toast.LENGTH_LONG).show();
+                                Toast.makeText(activity.getApplicationContext(),"ir a pagina de " + eventoAux.getUrl(),Toast.LENGTH_LONG).show();
+
+                                Intent intentNavegacion = new Intent(v.getContext(), NavegcionActivity.class);
+                                intentNavegacion.putExtra("link",eventoAux.getUrl());
+                                activity.startActivity(intentNavegacion);
+
 
                                 return true;
+
+
                             case R.id.btnRecordatorio:
                                 Toast.makeText(activity.getApplicationContext(),"inserte recordatorio aqui",Toast.LENGTH_LONG).show();
                                 return true;
@@ -92,6 +107,7 @@ public class adaptadorEvento extends RecyclerView.Adapter <adaptadorEvento.event
             descripcion = itemView.findViewById(R.id.txtvDescripcion);
         }
     }
+
 
 
 }

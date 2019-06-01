@@ -1,6 +1,8 @@
 package com.temas.selectos.eefi.Central;
 
+import android.app.AlarmManager;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
@@ -27,10 +29,12 @@ import com.temas.selectos.eefi.Central.ListaParaMostrar;
 import com.temas.selectos.eefi.Central.TodoslosEventos;
 import com.temas.selectos.eefi.Central.adaptadorEvento;
 import com.temas.selectos.eefi.MainActivity;
+import com.temas.selectos.eefi.NavegcionActivity;
 import com.temas.selectos.eefi.R;
 import com.temas.selectos.eefi.clases.Evento;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Timer;
 
 public class ActivityCentral extends AppCompatActivity {
@@ -72,9 +76,7 @@ public class ActivityCentral extends AppCompatActivity {
             public void run() {
                 ordenarEventos();
             }
-        }, 1000);
-
-
+        }, 2000);
 
 
         calendarioEventosJ.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
@@ -143,7 +145,7 @@ public class ActivityCentral extends AppCompatActivity {
                 auxMuestra.add(listaEventos.get(indices[i]));
             }
         }
-        adaptadorEvento adaptador = new adaptadorEvento(auxMuestra, this);
+        adaptadorEvento adaptador = new adaptadorEvento(auxMuestra, ActivityCentral.this);
         rcEventosPrincipalesJ.setAdapter(adaptador);
     }
 
@@ -316,9 +318,9 @@ public class ActivityCentral extends AppCompatActivity {
 
     }
 
-
     @Override
     public void onBackPressed() {
 
-    }
+
+            }
 }
