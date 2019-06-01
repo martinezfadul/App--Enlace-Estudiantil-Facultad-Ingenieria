@@ -4,17 +4,18 @@ import android.app.Activity;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.PopupMenu;
 import android.widget.TextView;
-
+import android.widget.Toast;
 import com.temas.selectos.eefi.R;
 import com.temas.selectos.eefi.clases.Evento;
-
 import java.util.ArrayList;
 
-public class adaptadorEvento extends RecyclerView.Adapter <adaptadorEvento.eventoViewHolder>{
+public class adaptadorEvento extends RecyclerView.Adapter <adaptadorEvento.eventoViewHolder> {
 
     ArrayList<Evento> Eventos;
     Activity activity;
@@ -39,6 +40,36 @@ public class adaptadorEvento extends RecyclerView.Adapter <adaptadorEvento.event
         eventoViewHolder.titulo.setText(eventoAux.getNombre());
         eventoViewHolder.descripcion.setText(eventoAux.getDescripcion());
 
+        eventoViewHolder.poster.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                PopupMenu pop = new PopupMenu(activity.getApplicationContext(),v);
+                pop.inflate(R.menu.menu_popup);
+                pop.show();
+
+
+                pop.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                    @Override
+                    public boolean onMenuItemClick(MenuItem item) {
+                        switch(item.getItemId())
+                        {
+                            case R.id.btnIrPagina:
+                                Toast.makeText(activity.getApplicationContext(),"ir a pagina de " + eventoAux.getNombre(),Toast.LENGTH_LONG).show();
+
+                                return true;
+                            case R.id.btnRecordatorio:
+                                Toast.makeText(activity.getApplicationContext(),"inserte recordatorio aqui",Toast.LENGTH_LONG).show();
+                                return true;
+                            default:
+                                return false;
+                        }
+                    }
+                });
+            }
+
+        });
+
+
     }
 
     @Override
@@ -61,4 +92,6 @@ public class adaptadorEvento extends RecyclerView.Adapter <adaptadorEvento.event
             descripcion = itemView.findViewById(R.id.txtvDescripcion);
         }
     }
+
+
 }

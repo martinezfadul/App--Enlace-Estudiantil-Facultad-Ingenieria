@@ -33,7 +33,7 @@ import com.temas.selectos.eefi.clases.Evento;
 import java.util.ArrayList;
 import java.util.Timer;
 
-public class ActivityCentral extends AppCompatActivity implements PopupMenu.OnMenuItemClickListener {
+public class ActivityCentral extends AppCompatActivity {
 
     RecyclerView rcEventosPrincipalesJ;
     private ArrayList<Evento> listaEventos= new ArrayList<Evento>();
@@ -42,7 +42,6 @@ public class ActivityCentral extends AppCompatActivity implements PopupMenu.OnMe
     CalendarView calendarioEventosJ;
     ArrayList<String> arregloMostrar;
     static int [] dias;
-    boolean bandera=true;
 
     FirebaseDatabase basedatos;
     DatabaseReference databaseReference;
@@ -73,7 +72,7 @@ public class ActivityCentral extends AppCompatActivity implements PopupMenu.OnMe
             public void run() {
                 ordenarEventos();
             }
-        }, 3000);
+        }, 1000);
 
 
 
@@ -99,7 +98,6 @@ public class ActivityCentral extends AppCompatActivity implements PopupMenu.OnMe
 
     public void iniciarListaEventosFB()
     {
-        final ArrayList<Evento> ass = new ArrayList();
         databaseReference.child("Eventos").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -109,7 +107,6 @@ public class ActivityCentral extends AppCompatActivity implements PopupMenu.OnMe
                     Evento aux = dsh.getValue(Evento.class);
                     listaEventos.add(aux);
                 }
-
             }
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
@@ -231,30 +228,6 @@ public class ActivityCentral extends AppCompatActivity implements PopupMenu.OnMe
             Toast.makeText(this,"No hay eventos regisrados",Toast.LENGTH_LONG).show();
         }
 
-
-    }
-
-    public void onClickPopup(View v)
-    {
-        PopupMenu popup = new PopupMenu(this,v);
-        popup.setOnMenuItemClickListener(this);
-        popup.inflate(R.menu.menu_popup);
-        popup.show();
-    }
-
-    @Override
-    public boolean onMenuItemClick(MenuItem item) {
-        switch(item.getItemId())
-        {
-            case R.id.btnIrPagina:
-                Toast.makeText(this,"ir a la pagina del evento",Toast.LENGTH_LONG).show();
-                return true;
-            case R.id.btnRecordatorio:
-                Toast.makeText(this,"inserte recordatorio aqui",Toast.LENGTH_LONG).show();
-                return true;
-                default:
-                    return false;
-        }
 
     }
 

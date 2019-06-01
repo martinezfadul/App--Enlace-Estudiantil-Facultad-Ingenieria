@@ -27,8 +27,7 @@
         <ScrollView
             android:id="@+id/scvCedes"
             android:layout_width="match_parent"
-            android:layout_height="116dp"
-            android:onClick="onClickIniciar">
+            android:layout_height="116dp">
 
             <LinearLayout
                 android:id="@+id/llCedes"
@@ -40,7 +39,7 @@
         <CalendarView
             android:id="@+id/cvCalendario"
             android:layout_width="match_parent"
-            android:layout_height="273dp" />
+            android:layout_height="290dp" />
 
     </LinearLayout>
 
