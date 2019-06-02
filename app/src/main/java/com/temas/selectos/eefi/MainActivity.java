@@ -33,8 +33,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void onClickAcceder(View view){
-        //verificarDatos();
-        ingreso();
+        verificarDatos();
 
     }
 
@@ -87,6 +86,7 @@ public class MainActivity extends AppCompatActivity {
         Cursor renglon = db.rawQuery("SELECT nocuenta, contraseña FROM Usuarios WHERE nocuenta = "+codigo+" AND contraseña = "+contra, null);
         if (renglon.moveToFirst()){
             Toast.makeText(this, "Accediste con el número de cuenta "+codigo, Toast.LENGTH_LONG).show();
+            ingreso();
         }
         else {
             Toast.makeText(this, "No estás registrado o tus datos son incorrectos", Toast.LENGTH_LONG).show();
